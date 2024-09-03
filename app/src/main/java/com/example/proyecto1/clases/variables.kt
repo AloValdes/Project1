@@ -11,7 +11,7 @@ fun main (){
 
     //string
     val gender: Char ='m'
-    val name: String ="Angel Omar"
+    val name: String ="Alondra Valdés"
 
     //Boolean
     var isGreater:Boolean= false
