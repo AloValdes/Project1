@@ -13,16 +13,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +37,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Cyan
+import androidx.compose.ui.graphics.Color.Companion.Magenta
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proyecto1.ui.theme.Proyecto1Theme
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,7 +162,7 @@ fun ModifierExample3() {
         Text(text = "Hello Item 4")
         Text(text = "Hello Item 5")
     }}
-@Preview(showBackground = true)
+
 @Composable
 fun CustomText() {
     Column {
@@ -172,7 +180,7 @@ fun CustomText() {
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
 fun Picture(){
     Column(
@@ -191,7 +199,7 @@ fun Picture(){
 
 }
 
-@Preview(showBackground = true)
+
 @Composable
 fun Content1(){
     Card( modifier = Modifier
@@ -217,7 +225,7 @@ fun Content1(){
         )
     }
 }
-@Preview(showBackground = true)
+
 @Composable
 fun Content2(){
     Row {
@@ -251,9 +259,49 @@ fun Content2(){
         }
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun BoxExample(){
+    Box(modifier = Modifier
+        .background(Color.DarkGray)
+        .fillMaxWidth()
+        .padding(5.dp)
+    ){ Image(painterResource(id = R.drawable.android),
+        contentDescription = "Logo Android",
+        contentScale = ContentScale.FillBounds)
+        Row (modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 150.dp),
+            horizontalArrangement = Arrangement.Center){
+            Icon(
+                Icons.Filled.Face,
+                contentDescription = "Icon"
+            )
+            Text(text = "Androidsito")
+        }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun BoxExample2(){
+    Box(
+        modifier = Modifier
+            .background(Magenta)
+            .padding(5.dp)
+            .size(250.dp)
+            {
+                Text(text = "TopStart", Modifier.align(Alignment.TopStart))
+                Text(text = "TopEnd", Modifier.align(Alignment.TopEnd))
+                Text(text = "CenterStart", Modifier.align(Alignment.CenterStart))
+                Text(text = "Center", Modifier.align(Alignment.Center))
+                Text(text = "CenterEnd", Modifier.align(Alignment.CenterEnd))
+                Text(text = "BottomStart", Modifier.align(Alignment.BottomStart))
+                Text(text = "BottomEnd", Modifier.align(Alignment.BottomEnd))}
+    )
+
+}
 
 fun clickAction(){
     println("Column Clicked")
 
 }
-
