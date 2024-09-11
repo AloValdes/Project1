@@ -12,6 +12,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -52,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proyecto1.ui.theme.Proyecto1Theme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import androidx.navigation.compose.NavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -262,22 +265,28 @@ fun Content2(){
 @Preview(showBackground = true)
 @Composable
 fun BoxExample(){
-    Box(modifier = Modifier
-        .background(Color.DarkGray)
-        .fillMaxWidth()
-        .padding(5.dp)
-    ){ Image(painterResource(id = R.drawable.android),
-        contentDescription = "Logo Android",
-        contentScale = ContentScale.FillBounds)
-        Row (modifier = Modifier
+    Box(
+        modifier = Modifier
+            .background(Color.DarkGray)
             .fillMaxWidth()
-            .padding(0.dp, 150.dp),
-            horizontalArrangement = Arrangement.Center){
+            .padding(5.dp)
+    ){
+        Image(painterResource(R.drawable.android),
+            contentDescription = "Android Logo",
+            contentScale = ContentScale.FillBounds
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp,150.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Icon(
-                Icons.Filled.Face,
+                Icons.Filled.AccountBox,
                 contentDescription = "Icon"
             )
-            Text(text = "Androidsito")
+            Text(text = "Text")
+
         }
     }
 }
@@ -286,19 +295,18 @@ fun BoxExample(){
 fun BoxExample2(){
     Box(
         modifier = Modifier
-            .background(Magenta)
+            .background(Color.Magenta)
             .padding(5.dp)
             .size(250.dp)
-            {
-                Text(text = "TopStart", Modifier.align(Alignment.TopStart))
-                Text(text = "TopEnd", Modifier.align(Alignment.TopEnd))
-                Text(text = "CenterStart", Modifier.align(Alignment.CenterStart))
-                Text(text = "Center", Modifier.align(Alignment.Center))
-                Text(text = "CenterEnd", Modifier.align(Alignment.CenterEnd))
-                Text(text = "BottomStart", Modifier.align(Alignment.BottomStart))
-                Text(text = "BottomEnd", Modifier.align(Alignment.BottomEnd))}
-    )
-
+    ) {
+        Text(text = "TopStart", Modifier.align(Alignment.TopStart))
+        Text(text = "TopEnd", Modifier.align(Alignment.TopEnd))
+        Text(text = "CenterStart", Modifier.align(Alignment.CenterStart))
+        Text(text = "Center", Modifier.align(Alignment.Center))
+        Text(text = "CenterEnd", Modifier.align(Alignment.CenterEnd))
+        Text(text = "BottomStart", Modifier.align(Alignment.BottomStart))
+        Text(text = "BottomEnd", Modifier.align(Alignment.BottomEnd))
+        }
 }
 
 fun clickAction(){
