@@ -9,9 +9,9 @@ import androidx.navigation.NavController
 @Composable
 fun HomeScreen(navController: NavController) {
     Column {
-        Text(text = "This is the Menu Screen")
-        Button(onClick = { navController.navigate("home") }) {
-            Text(text = "Go to Home")
+        Text(text = "This is the Home Screen")
+        Button(onClick = { navController.navigate("Menu") }) {
+            Text(text = "Go to Menu")
         }
     }
 }
