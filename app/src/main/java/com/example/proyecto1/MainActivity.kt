@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContent {
-            multiScreenApp()
+            MultiScreenApp()
 
             /*Column(
                  modifier = Modifier
@@ -200,7 +200,7 @@ fun Picture() {
         Image(
             modifier = Modifier
                 .fillMaxWidth(),
-            painter = painterResource(R.drawable.Leon),
+            painter = painterResource(R.drawable.Android),
             contentDescription = "Logo Android",
             contentScale = ContentScale.Crop
         )
@@ -228,7 +228,7 @@ fun Content1() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            painter = painterResource(id = R.drawable.Leon),
+            painter = painterResource(id = R.drawable.Android),
             contentDescription = "Logo Android",
             contentScale = ContentScale.Crop
         )
@@ -250,7 +250,7 @@ fun BoxExample1(){
             .fillMaxWidth()
             .padding(5.dp)
     ){
-        Image(painterResource(R.drawable.Leon),
+        Image(painterResource(R.drawable.Android),
             contentDescription = "Android Logo",
             contentScale = ContentScale.FillBounds
         )
@@ -294,15 +294,15 @@ fun clickAction() {
 }*/
 
 @Composable
-fun multiScreenApp(){
+fun MultiScreenApp(){
     val navController=rememberNavController()
     Surface (color = Color.White){
-        setupNavGraph(navController=navController)
+        SetupNavGraph(navController=navController)
     }
 }
 
 @Composable
-fun setupNavGraph(navController: NavHostController) {
+fun SetupNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "Menu") {
         composable("Menu") {
             MenuScreen(navController)
@@ -312,3 +312,4 @@ fun setupNavGraph(navController: NavHostController) {
         }
     }
 }
+
