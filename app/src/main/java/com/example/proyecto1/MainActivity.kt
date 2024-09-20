@@ -100,7 +100,7 @@ fun MyApp() {
             // Cantidad de amigos
             Text(
                 text = "Amigos(7) →",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 5.dp)
             )
 
