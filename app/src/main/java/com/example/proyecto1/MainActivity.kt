@@ -42,7 +42,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.ui.platform.LocalContext
 import android.widget.Toast
 import androidx.compose.foundation.layout.R
-import androidx.compose.foundation.layout.res
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
@@ -90,7 +89,7 @@ fun MyApp() {
             //Mi perfil
             LazyRow(modifier = Modifier.padding(bottom = 5.dp)) {
                 items(listOf(
-                    Pair("Clartix1", res.drawable.),
+                    Pair("Clartix1", res.drawable.yo),
                 )) { friend ->
                     FriendItem(name = friend.first, imageResId = friend.second)
                 }
