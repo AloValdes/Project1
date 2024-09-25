@@ -59,6 +59,7 @@ import java.security.AccessController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.proyecto1.ui.theme.screens.ComponentScreen
 import com.example.proyecto1.ui.theme.screens.HomeScreen
 import com.example.proyecto1.ui.theme.screens.MenuScreen
 
@@ -310,5 +311,9 @@ fun setupNavGraph(navController: NavHostController) {
         composable("Home") {
             HomeScreen(navController)
         }
+        composable("Component") {
+            ComponentScreen(navController)
+        }
+
     }
 }
