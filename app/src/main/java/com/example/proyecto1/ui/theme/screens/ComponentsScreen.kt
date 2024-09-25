@@ -76,10 +76,10 @@ fun ComponentScreen(navController: NavController) {
 
 @Composable
 fun Content2() {
-    Text(text = "Content1")
+    Text(text = "Content2")
 }
 
 @Composable
 fun Content1() {
-    Text(text = "Content2")
+    Text(text = "Content1")
 }
