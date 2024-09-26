@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContent {
-            multiScreenApp()
+            ComposeMultiScreenApp()
 
             /*Column(
                  modifier = Modifier
@@ -297,7 +297,7 @@ fun clickAction() {
 }*/
 
 @Composable
-fun multiScreenApp(){
+fun ComposeMultiScreenApp(){
     val navController=rememberNavController()
     Surface (color = Color.White){
         setupNavGraph(navController=navController)
