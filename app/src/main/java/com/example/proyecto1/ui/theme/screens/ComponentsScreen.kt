@@ -94,7 +94,7 @@ fun ComponentScreen(navController: NavController) {
                     label = { Text(text = "Floating Buttons") },
                     selected = false,
                     onClick = {
-                        component = "Content2"
+                        component = "FloatingButtons"
                         scope.launch {
                         }
                     }
