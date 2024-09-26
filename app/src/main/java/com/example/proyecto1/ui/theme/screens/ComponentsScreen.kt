@@ -201,6 +201,7 @@ fun FloatingButtons() {
 }
 
 @Preview
+@Preview(showBackground = true)
 @Composable
 fun Chips() {
     Column(
@@ -211,29 +212,27 @@ fun Chips() {
     ) {
         AssistChip(
             onClick = {},
-            label = { Text( "Assist Chip")},
-            leadingIcon = (
-                    Icon(Icons.Filled.AccountBox,"",
-                        Modifier.size(AssistChipDefaults.IconSize))
-                    )
+            label = {Text("Assist Chip")},
+            leadingIcon = {
+                Icon(Icons.Filled.AccountBox,"",
+                    Modifier.size(AssistChipDefaults.IconSize))
+            }
         )
         var selected by remember { mutableStateOf(false) }
         FilterChip(
             selected = selected,
-            onClick = { },
+            onClick = {selected = !selected},
             label = { Text("Filter Chip")},
-            leadingIcon = {if (selected){
+            leadingIcon = if (selected){
                 {
                     Icon(
-                        Icons.Filled.AccountBox,"",
+                        Icons.Filled.AccountBox, "",
                         Modifier.size(AssistChipDefaults.IconSize)
                     )
                 }
-            }
             } else {
-            null
-        }
-    }
-
+                null
+            }
+        )
     }
 }
