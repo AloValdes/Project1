@@ -1,5 +1,7 @@
 package com.example.proyecto1.ui.theme.screens
 
+import android.icu.util.Calendar
+import android.widget.DatePicker
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +18,19 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
@@ -43,6 +51,7 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,12 +62,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role.Companion.Switch
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 
 @Composable
 fun ComponentScreen(navController: NavController) {
@@ -155,7 +172,37 @@ fun ComponentScreen(navController: NavController) {
                     }
                 )
 
-                //
+                //Badges
+                NavigationDrawerItem(
+                    label = { Text(text = "Badges") },
+                    selected = false,
+                    onClick = {
+                        component = "Badges"
+                        scope.launch {
+                        }
+                    }
+                )
+
+                //DatePickers
+                NavigationDrawerItem(
+                    label = { Text(text = "Date Pickers") },
+                    selected = false,
+                    onClick = {
+                        component = "DatePickers"
+                        scope.launch {
+                        }
+                    }
+                )
+                //TimePickers
+                NavigationDrawerItem(
+                    label = { Text(text = "Time Pickers") },
+                    selected = false,
+                    onClick = {
+                        component = "TimePickers"
+                        scope.launch {
+                        }
+                    }
+                )
             }
         }
     ) {
@@ -185,6 +232,19 @@ fun ComponentScreen(navController: NavController) {
                 }
                 "Switches" -> {
                     Switches()
+                }
+                "Badges" -> {
+                    Badges()
+                }
+                "DatePickers" -> {
+                    DatePickers(onDateSelected = {}) {
+
+                    }
+                }
+                "Time Pickers" -> {
+                    TimePickers(onConfirm = {}) {
+
+                    }
                 }
             }
         }
@@ -370,7 +430,6 @@ fun Sliders() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun Switches() {
     Column(
@@ -411,3 +470,89 @@ fun Switches() {
     }
 }
 
+@Composable
+fun Badges() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var itemCount by remember { mutableStateOf(0) }
+        BadgedBox(
+            badge = {
+                if (itemCount > 0) {
+                    Badge(
+                        containerColor = Color.Red,
+                        contentColor = Color.White
+                    ) {
+                        Text(text = "$itemCount")
+                    }
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = ""
+                    )
+                }
+                Button(onClick = { itemCount++ }) {
+                    Text(text = "Add item")
+                }
+            })
+        {
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickers(
+    onDateSelected: (Long?) -> Unit,
+                onDismiss: () -> Unit
+) {
+    val datePickerState = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = {
+                onDateSelected(datePickerState.selectedDateMillis)
+                onDismiss()
+            }) {
+                Text("OK")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    ) {
+        DatePicker(state = datePickerState)
+    }
+}
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimePickers(onConfirm: () -> Unit,
+                onDismiss: () -> Unit
+){
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}
