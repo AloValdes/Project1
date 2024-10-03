@@ -1,9 +1,13 @@
 package com.example.proyecto1.ui.theme.screens
 
 import android.icu.util.Calendar
+import android.widget.Button
 import android.widget.DatePicker
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +22,10 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Badge
@@ -71,11 +78,15 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun ComponentScreen(navController: NavController) {
@@ -203,6 +214,38 @@ fun ComponentScreen(navController: NavController) {
                         }
                     }
                 )
+                //SnackBars
+                NavigationDrawerItem(
+                    label = { Text(text = "Snack Bars") },
+                    selected = false,
+                    onClick = {
+                        component = "SnackBars"
+                        scope.launch {
+                        }
+                    }
+                )
+
+                //AlertDialogs
+                NavigationDrawerItem(
+                    label = { Text(text = "Alert Dialogs") },
+                    selected = false,
+                    onClick = {
+                        component = "AlertDialogs"
+                        scope.launch {
+                        }
+                    }
+                )
+
+                //Bars
+                NavigationDrawerItem(
+                    label = { Text(text = "Bars but not to eat") },
+                    selected = false,
+                    onClick = {
+                        component = "Bars"
+                        scope.launch {
+                        }
+                    }
+                )
             }
         }
     ) {
@@ -245,6 +288,15 @@ fun ComponentScreen(navController: NavController) {
                     TimePickers(onConfirm = {}) {
 
                     }
+                }
+                "Snack Bars" -> {
+                    SnackBars()
+                }
+                "Alert Dialogs" -> {
+                    AlertDialogs()
+                }
+                "Bars but not to eat" -> {
+                    Bars()
                 }
             }
         }
@@ -429,7 +481,7 @@ fun Sliders() {
         }
     }
 }
-
+@Preview(showBackground = true, name="XD")
 @Composable
 fun Switches() {
     Column(
@@ -556,3 +608,95 @@ fun TimePickers(onConfirm: () -> Unit,
         }
     }
 }
+
+@Composable
+fun SnackBars() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val snackState = remember{SnackbarHostState()}
+        val snackScope = rememberCoroutineScope()
+
+        SnackbarHost(hostState = snackState, Modifier)
+
+        fun launchSnackBar(){
+            snackScope.launch { snackState.showSnackbar("The message was sent") }
+        }
+        Button(::launchSnackBar){
+            Text("Show Snackbar")
+        }
+    }
+}
+
+@Composable
+fun AlertDialogs() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var showAlertDialog by remember { mutableStateOf(false) }
+        var selectedOption by remember { mutableStateOf("") }
+
+        if (showAlertDialog){
+            AlertDialog(
+                icon = {Icon(Icons.Filled.Warning, contentDescription = "")},
+                title = { Text(text = "Confirm Deletion")},
+                text = { Text(text = "Are you sure you want to Delete the file?")},
+                onDismissRequest = {},
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            selectedOption = "Confirm"
+                            showAlertDialog = false
+                        }) {
+                        Text(text = "Confirm")}
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            selectedOption = "Dismiss"
+                            showAlertDialog = false
+                        }) {
+                        Text(text = "Dismiss")}
+                }
+            )
+        }
+        Text(selectedOption)
+        Button(onClick = {showAlertDialog= true}) {
+            Text("Show Alert Dialog")
+        }
+    }
+}
+
+@Composable
+fun Bars(){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.DarkGray)
+    ){
+        Row (
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(10.dp, 50.dp, 10.dp, 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Icon(Icons.Filled.Menu,
+                contentDescription = "",
+                tint = Color.White)
+            Text(text = "App Title",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp)
+            Icon(Icons.Filled.Settings,
+                contentDescription = "",
+                tint = Color.White)
+        }
+    }
+}
+
+
