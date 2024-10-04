@@ -8,11 +8,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
@@ -25,6 +31,12 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.Call
+import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -78,6 +90,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextButton
@@ -85,8 +98,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.proyecto1.R
+import com.example.proyecto1.data.model.PostModel
 
 @Composable
 fun ComponentScreen(navController: NavController) {
@@ -238,7 +254,7 @@ fun ComponentScreen(navController: NavController) {
 
                 //Bars
                 NavigationDrawerItem(
-                    label = { Text(text = "Bars but not to eat") },
+                    label = { Text(text = "Bars") },
                     selected = false,
                     onClick = {
                         component = "Bars"
@@ -295,7 +311,7 @@ fun ComponentScreen(navController: NavController) {
                 "Alert Dialogs" -> {
                     AlertDialogs()
                 }
-                "Bars but not to eat" -> {
+                "Bars" -> {
                     Bars()
                 }
             }
@@ -481,7 +497,7 @@ fun Sliders() {
         }
     }
 }
-@Preview(showBackground = true, name="XD")
+
 @Composable
 fun Switches() {
     Column(
@@ -671,6 +687,7 @@ fun AlertDialogs() {
     }
 }
 
+@Preview(showBackground = true, name="XD")
 @Composable
 fun Bars(){
     Box(modifier = Modifier
@@ -696,7 +713,105 @@ fun Bars(){
                 contentDescription = "",
                 tint = Color.White)
         }
+        var post = arrayOf(
+            PostModel(1,"Tittle 1", "Text 1"),
+            PostModel(2,"Tittle 2", "Text 2"),
+            PostModel(3,"Tittle 3", "Text 3"),
+            PostModel(4,"Tittle 4", "Text 4"),
+        )
+        Column (
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(10.dp, 90.dp, 10.dp, 50.dp)
+                .fillMaxSize()
+        ){ Posts(post)}
+
+        Row (
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .fillMaxWidth()
+                .height(65.dp)
+                .background(Color.Black)
+                .padding(2.dp, 5.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            Column (){
+                IconButton(onClick = {},
+                    modifier = Modifier.size(30.dp)) {
+                    Icon(Icons.Outlined.Home, contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Text(text = "Home", color = Color.White)
+            }
+            Column (){
+                IconButton(onClick = {},
+                    modifier = Modifier.size(30.dp)) {
+                    Icon(Icons.Outlined.Call, contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Text(text = "Call", color = Color.White)
+            }
+            Column (){
+                IconButton(onClick = {},
+                    modifier = Modifier.size(30.dp)) {
+                    Icon(Icons.Outlined.AccountCircle, contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Text(text = "Account", color = Color.White)
+            }
+            Column (){
+                IconButton(onClick = {},
+                    modifier = Modifier.size(30.dp)) {
+                    Icon(Icons.Outlined.Face, contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Text(text = "Friends", color = Color.White)
+            }
+            Column (){
+                IconButton(onClick = {},
+                    modifier = Modifier.size(30.dp)) {
+                    Icon(Icons.Outlined.Settings, contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Text(text = "Settings", color = Color.White)
+            }
+        }
     }
 }
+
+@Composable
+fun Posts(arrayPosts: Array<PostModel>) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(arrayPosts){ post->
+            Text(
+                text = post.title,
+                color = Color.White,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider(thickness = 2.dp)
+        }
+    }
+}
+
+
 
 
