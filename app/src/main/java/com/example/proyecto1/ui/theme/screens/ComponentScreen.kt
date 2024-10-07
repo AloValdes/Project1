@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -98,15 +99,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.proyecto1.R
+import com.example.proyecto1.data.model.MenuModel
 import com.example.proyecto1.data.model.PostModel
 
 @Composable
 fun ComponentScreen(navController: NavController) {
-    var component by remember{ mutableStateOf("") }
+    val MenuOptions = arrayOf(
+        MenuModel(1,"Bars", "bars", Icons.Filled.DateRange),
+    )
+    var component by rememberSaveable{ mutableStateOf("") }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
@@ -319,7 +325,7 @@ fun ComponentScreen(navController: NavController) {
     }
 }
 
-
+/*
 
 @Composable
 fun Content2() {
@@ -796,6 +802,25 @@ fun Bars(){
 
 @Composable
 fun Posts(arrayPosts: Array<PostModel>) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(arrayPosts){ post->
+            Text(
+                text = post.title,
+                color = Color.White,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider(thickness = 2.dp)
+        }
+    }
+}
+ */
+
+@Composable
+fun MenuOptions(arrayPosts: Array<MenuModel>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
