@@ -7,5 +7,4 @@ data class PostModel(
     var title:String,
     val text:String,
     val image:Painter
-
     )
