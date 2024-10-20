@@ -98,7 +98,7 @@ import com.example.proyecto1.R
 import com.example.proyecto1.data.model.MenuModel
 import com.example.proyecto1.data.model.PostModel
 import com.example.proyecto1.ui.theme.components.PostCard
-import com.example.proyecto11.ui.theme.components.PostCard
+import com.example.proyecto1.ui.theme.components.PostCard
 import com.example.proyecto1.ui.theme.components.PostCardCompact
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
