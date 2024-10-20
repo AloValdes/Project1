@@ -797,7 +797,7 @@ fun Bars(){
                 .padding(10.dp, 90.dp, 10.dp, 50.dp)
                 .fillMaxSize()
         ){
-            Adaptive(posts)
+            Adaptive(post)
             //Posts(post)
             // PostCard(id = 1, title = "This is a Card",
             //  text = "This is the Text Card", image = painterResource(R.drawable.android))
