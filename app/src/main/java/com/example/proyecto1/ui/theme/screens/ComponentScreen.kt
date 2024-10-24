@@ -93,6 +93,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.proyecto1.R
 import com.example.proyecto1.data.model.MenuModel
@@ -351,7 +352,6 @@ fun ComponentScreen(navController: NavController) {
             "snack-bar" -> SnackBars()
             "alert-dialogs" -> AlertDialogs()
             "bars" -> Bars()
-            "Adaptive"-> Adaptive()
 
         }
     }
@@ -902,53 +902,39 @@ fun PostGrid(arrayPosts: Array<PostModel>) {
     }
 }
 
+
 @Composable
-fun Adaptive() {
-    val windowSize = currentWindowAdaptiveInfo().windowSizeClass
+fun Adaptive(arrayPosts: Array<PostModel>){
+    var WindowsSize = currentWindowAdaptiveInfo().windowSizeClass
+    var heigth = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
 
+    val post = arrayOf(
+        PostModel(1,"Title 1 of the card", "Text 1 of the card", painterResource(R.drawable.cipher)),
+        PostModel(2,"Title 2 of the card", "Text 2 of the card", painterResource(R.drawable.cipher)),
+        PostModel(3,"Title 3 of the card", "Text 3 of the card", painterResource(R.drawable.cipher)),
+        PostModel(4,"Title 4 of the card", "Text 4 of the card", painterResource(R.drawable.cipher)),
+        PostModel(5,"Title 5 of the card", "Text 5 of the card", painterResource(R.drawable.cipher)),
+        PostModel(6,"Title 6 of the card", "Text 6 of the card", painterResource(R.drawable.cipher)),
+        PostModel(7,"Title 7 of the card", "Text 7 of the card", painterResource(R.drawable.cipher)),
+        PostModel(8,"Title 8 of the card", "Text 8 of the card", painterResource(R.drawable.cipher))
+    )
 
-    @Composable
-    fun PostGrid(arrayPosts: Array<PostModel>){
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 128.dp),
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(arrayPosts) { post->
-                PostCard(post.id, post.title, post.text, post.image)
-            }
-        }
+    if (width == WindowWidthSizeClass.COMPACT){
+        Posts(post, "PhoneP")
+    } else if (heigth == WindowHeightSizeClass.COMPACT){
+        Posts(post, "PhoneL")
+    } else{
+        Posts(post, "PhoneL")
     }
+    //Text(text = WindowsSize.toString())
 
+    //width | compact<600dp | phone portrait
+    //width | medium>=600dp <840dp | tablet portrait
+    //width | expanded>840dp | tablet landscape
 
-    @Composable
-    fun Adaptive(){
-        var WindowsSize = currentWindowAdaptiveInfo().windowSizeClass
-        var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
-        val width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+    //height | compact<480dp | phone landscape
+    //height | medium >=480dp <900dp | tablet landscape or phone portrait
+    //height | expanded >900dp | tablet portrait
 
-        //Compact width La resolucion es menor a 660.dp depende de la resolucion del cel Phone Portrait
-        //Medium width La resolucion es mayo o igual a 600.dp pero menor a 840.dp tablets Phone Portrait
-
-        var post = arrayOf(
-            PostModel(1,"Tittle 1", "Text 1", painterResource(R.drawable.cipher)),
-            PostModel(2,"Tittle 2", "Text 2", painterResource(R.drawable.cipher)),
-            PostModel(3,"Tittle 3", "Text 3", painterResource(R.drawable.cipher)),
-            PostModel(4,"Tittle 4", "Text 4", painterResource(R.drawable.cipher)),
-            PostModel(5,"Tittle 5", "Text 5", painterResource(R.drawable.cipher)),
-            PostModel(6,"Tittle 6", "Text 6", painterResource(R.drawable.cipher)),
-            PostModel(7,"Tittle 7", "Text 7", painterResource(R.drawable.cipher)),
-            PostModel(8,"Tittle 8", "Text 8", painterResource(R.drawable.cipher)),
-            PostModel(9,"Tittle 9", "Text 9", painterResource(R.drawable.cipher)),
-            PostModel(10,"Tittle 10", "Text 10", painterResource(R.drawable.cipher)),
-        )
-
-        if(width== WindowWidthSizeClass.COMPACT){
-            Posts(post,"PhoneP")
-        }else if(width == WindowWidthSizeClass.MEDIUM){
-            Posts(post, "TabletP")
-        }else {
-            Posts(post,"PhoneL")
-        }
-    }
 }
