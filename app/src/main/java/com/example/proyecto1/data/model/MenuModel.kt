@@ -1,10 +1,11 @@
-package com.example.proyecto1.data.model
-
+package com.example.proyecto1.data.Model
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class MenuModel(
     val id: Int,
-    var title: String,
+    val title: String,
     val option: String,
     val icon: ImageVector
-    )
+){
+
+}

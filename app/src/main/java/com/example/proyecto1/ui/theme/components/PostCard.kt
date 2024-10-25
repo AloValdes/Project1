@@ -108,9 +108,3 @@ fun PostCardCompact(id: Int, title: String, text: String, image: Painter){
         }
     }
 }
-
-
-
-
-
-

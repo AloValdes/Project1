@@ -96,8 +96,8 @@ import androidx.compose.ui.unit.sp
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.proyecto1.R
-import com.example.proyecto1.data.model.MenuModel
-import com.example.proyecto1.data.model.PostModel
+import com.example.proyecto1.data.Model.MenuModel
+import com.example.proyecto1.data.Model.PostModel
 import com.example.proyecto1.ui.theme.components.PostCard
 import com.example.proyecto1.ui.theme.components.PostCard
 import com.example.proyecto1.ui.theme.components.PostCardCompact
@@ -352,6 +352,7 @@ fun ComponentScreen(navController: NavController) {
             "snack-bar" -> SnackBars()
             "alert-dialogs" -> AlertDialogs()
             "bars" -> Bars()
+            "Adaptive" -> Adaptive()
 
         }
     }
@@ -797,7 +798,7 @@ fun Bars(){
                 .padding(10.dp, 90.dp, 10.dp, 50.dp)
                 .fillMaxSize()
         ){
-            Adaptive(post)
+            Adaptive()
             //Posts(post)
             // PostCard(id = 1, title = "This is a Card",
             //  text = "This is the Text Card", image = painterResource(R.drawable.android))
@@ -904,37 +905,47 @@ fun PostGrid(arrayPosts: Array<PostModel>) {
 
 
 @Composable
-fun Adaptive(arrayPosts: Array<PostModel>){
+fun Adaptive(){
+    // Stores the dimensions of the actual screen
     var WindowsSize = currentWindowAdaptiveInfo().windowSizeClass
-    var heigth = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+
+    //Sets variables with the height and width of the screen
+    var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
     var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
 
-    val post = arrayOf(
-        PostModel(1,"Title 1 of the card", "Text 1 of the card", painterResource(R.drawable.cipher)),
-        PostModel(2,"Title 2 of the card", "Text 2 of the card", painterResource(R.drawable.cipher)),
-        PostModel(3,"Title 3 of the card", "Text 3 of the card", painterResource(R.drawable.cipher)),
-        PostModel(4,"Title 4 of the card", "Text 4 of the card", painterResource(R.drawable.cipher)),
-        PostModel(5,"Title 5 of the card", "Text 5 of the card", painterResource(R.drawable.cipher)),
-        PostModel(6,"Title 6 of the card", "Text 6 of the card", painterResource(R.drawable.cipher)),
-        PostModel(7,"Title 7 of the card", "Text 7 of the card", painterResource(R.drawable.cipher)),
-        PostModel(8,"Title 8 of the card", "Text 8 of the card", painterResource(R.drawable.cipher))
+    /**
+     * Android handles 3 predifined dimensions
+     *
+     * COMPACT
+     * Compact width < 600dp Phone portrait
+     * Compact height < 480dp Phone landscape
+     *
+     * MEDIUM
+     * Medium width >= 600dp and width <840dp Tablets  portrait
+     * Medium height >=480dp and height < 900dp Tablets landscape or phone portrait
+     *
+     * EXPANDED
+     * Expanded width > 840dp Tablet landscape
+     * Expanded height > 900.dp Tablet in portrait
+     */
+    var post = arrayOf(
+        PostModel(1,"Title1","Text1",painterResource(R.drawable.cipher)),
+        PostModel(2,"Title2","Text2",painterResource(R.drawable.cipher)),
+        PostModel(3,"Title3","Text3",painterResource(R.drawable.cipher)),
+        PostModel(4,"Title4","Text4",painterResource(R.drawable.cipher)),
+        PostModel(5,"Title5","Text5",painterResource(R.drawable.cipher)),
+        PostModel(6,"Title6","Text6",painterResource(R.drawable.cipher)),
+        PostModel(7,"Title7","Text7",painterResource(R.drawable.cipher)),
+        PostModel(8,"Title8","Text8",painterResource(R.drawable.cipher)),
+        PostModel(9,"Title9","Text9",painterResource(R.drawable.cipher)),
+        PostModel(10,"Title10","Text10",painterResource(R.drawable.cipher)),
     )
-
-    if (width == WindowWidthSizeClass.COMPACT){
-        Posts(post, "PhoneP")
-    } else if (heigth == WindowHeightSizeClass.COMPACT){
-        Posts(post, "PhoneL")
-    } else{
+    if(width == WindowWidthSizeClass.COMPACT){
+        Posts(post, "PhoneP") //PhoneP = Phone PORTRAIT
+    }else if(height == WindowHeightSizeClass.COMPACT){
+        Posts(post, "PhoneL") //PhoneP = Phone LANDSCAPE
+    }else{
         Posts(post, "PhoneL")
     }
-    //Text(text = WindowsSize.toString())
-
-    //width | compact<600dp | phone portrait
-    //width | medium>=600dp <840dp | tablet portrait
-    //width | expanded>840dp | tablet landscape
-
-    //height | compact<480dp | phone landscape
-    //height | medium >=480dp <900dp | tablet landscape or phone portrait
-    //height | expanded >900dp | tablet portrait
-
+    //Text(text=WindowsSize.toString())
 }
