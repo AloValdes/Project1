@@ -25,7 +25,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.example.proyecto1.data.Model.MenuModel
+import com.example.proyecto1.data.model.MenuModel
 import kotlinx.coroutines.launch
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
