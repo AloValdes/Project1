@@ -1,12 +1,12 @@
 package com.example.proyecto1.ui.theme.biometrics
 
 import android.hardware.biometrics.BiometricManager
+import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
-import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -20,15 +20,13 @@ class  BiometricPromptManager(
 
     val promptResults = resultChannel.receiveAsFlow()
 
+    @RequiresApi(Build.VERSION_CODES.P)
     fun showBiometricPrompt(
         title: String,
         description: String
     ) {
         val manager = BiometricManager.from(activity)
 
-        //Authenticators are ways how we can authenticate user with the biometric prompt
-        // by using 'or', we can set multiple ways the user can authenticate itself
-        //val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
         val authenticators = if (Build.VERSION.SDK_INT >= 30) {
 
             BIOMETRIC_STRONG or DEVICE_CREDENTIAL
