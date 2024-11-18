@@ -50,6 +50,8 @@ android {
 }
 
 dependencies {
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -60,14 +62,18 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.adaptive.android)
-
-    // implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.play.services.maps)
+    //implementation(libs.androidx.adaptive.android)
+    //implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
+
+
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("io.coil-kt:coil-compose:2.4.0")
 }
