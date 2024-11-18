@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.play.services.maps)
+    implementation(libs.androidx.appcompat)
     //implementation(libs.androidx.adaptive.android)
     //implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
