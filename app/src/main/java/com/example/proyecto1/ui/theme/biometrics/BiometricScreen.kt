@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
+
 @Composable
 fun BiometricsScreen(navController: NavController, activity: AppCompatActivity) {
     val promptManager by lazy {
@@ -88,8 +89,6 @@ fun BiometricsScreen(navController: NavController, activity: AppCompatActivity) 
                             "Authentication not set"
                         }
                         BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
-                            // On successful authentication, navigate to HomeScreen
-                            // Redirect to HomeScreen after successful authentication
                             navController.navigate("home")
                             "Authentication success"
                         }

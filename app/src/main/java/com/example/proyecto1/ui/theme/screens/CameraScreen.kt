@@ -19,8 +19,9 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Face
 
+
 @Composable
-fun CameraScreen(context: Context){
+fun CameraScreen(context: Context) {
     val imageUris = remember { mutableStateListOf<Uri>() }
 
     // Lanzadores de funcionalidad y permisos
@@ -127,4 +128,6 @@ fun CameraScreen(context: Context){
         }
     }
 }
+
+
 

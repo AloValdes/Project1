@@ -14,16 +14,18 @@ class BackgroundTaskWorker(ctx: Context, params: WorkerParameters) : Worker(ctx,
         // Simulación de trabajo en segundo plano
         for (i in 1..5) {
             try {
-                Thread.sleep(1000)
+                Thread.sleep(1000) // Simula trabajo de 1 segundo
                 Log.d("BackgroundTaskWorker", "Trabajo $i en progreso")
 
+                // Actualiza el progreso con cada paso
                 setProgressAsync(Data.Builder().putInt("progress", i).build())
             } catch (e: InterruptedException) {
                 Log.e("BackgroundTaskWorker", "Trabajo interrumpido: ${e.message}")
-                return Result.failure()
+                return Result.failure() // Retorna fallo si se interrumpe
             }
         }
 
-        return Result.success()
+        return Result.success() // Indica que la tarea se completó con éxito
     }
 }
+

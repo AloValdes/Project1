@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat
 
 import kotlinx.coroutines.delay
 
-// Esta clase monitorea el estado de la red (WiFi o Datos Móviles) y muestra información sobre el consumo de datos.
 class NetworkMonitor(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
@@ -38,9 +37,12 @@ class NetworkMonitor(
 
     // Función privada que obtiene el estado de la conexión (WiFi o Datos Móviles)
     private fun getConnectionStatus(): String {
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        val isWifiConnected = wifiManager.isWifiEnabled && networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
-        val isMobileConnected = networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val isWifiConnected =
+            wifiManager.isWifiEnabled && networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+        val isMobileConnected =
+            networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
 
         // Se determina el estado de la conexión (WiFi, Datos Móviles o Sin Conexión)
         return when {
@@ -58,6 +60,7 @@ class NetworkMonitor(
                     "Conectado a WiFi (Nombre de red no disponible)"
                 }
             }
+
             isMobileConnected -> "Conectado a Datos Móviles"  // Si está conectado a datos móviles
             else -> "Sin conexión a Internet"
         }
@@ -97,7 +100,8 @@ class NetworkMonitor(
                 // Si estamos usando datos móviles, mostramos imagen de baja calidad
 
                 // Obtiene el uso actual de datos móviles y WiFi
-                val currentMobileBytes = TrafficStats.getMobileRxBytes() + TrafficStats.getMobileTxBytes()
+                val currentMobileBytes =
+                    TrafficStats.getMobileRxBytes() + TrafficStats.getMobileTxBytes()
                 val currentWifiBytes = TrafficStats.getTotalRxBytes() - currentMobileBytes
 
                 // Calculamos el consumo de datos móviles y WiFi

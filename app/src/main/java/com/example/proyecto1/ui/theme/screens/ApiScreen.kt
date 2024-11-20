@@ -44,7 +44,7 @@ import java.util.TimeZone
 import android.net.ConnectivityManager
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun APisScreen(navController: NavController) {
     val menuOptions = listOf(
@@ -118,6 +118,7 @@ fun BackgroundTasksContent() {
         Text("Contenido para Tareas en segundo plano")
 
         Button(onClick = {
+            // Programar el trabajo en segundo plano
             workManager.enqueue(workRequest)
             isWorkScheduled = true
             isWorkComplete = false
@@ -126,6 +127,7 @@ fun BackgroundTasksContent() {
         }
 
         if (isWorkScheduled) {
+            // Observar el progreso del Worker
             LaunchedEffect(Unit) {
                 workManager.getWorkInfoByIdLiveData(workRequest.id).observeForever { workInfo ->
                     workInfo?.let {
@@ -140,6 +142,7 @@ fun BackgroundTasksContent() {
                 }
             }
 
+            // Mostrar el progreso en pantalla
             if (!isWorkComplete) {
                 Text("Tarea en progreso: Paso $progress de 5")
             } else {
@@ -208,19 +211,25 @@ fun fetchContacts(context: Context): List<String> {
 
 @Composable
 fun LocationTrackingContent(navController: NavController, searchVM: SearchViewModel) {
+    // Mostrar la vista de entrada de dirección
     HomeView(navController, searchVM)
 
+    // Verificar si los datos son válidos antes de navegar
     OutlinedButton(onClick = {
         try {
+            // Comprobar que las coordenadas no son nulas
             if (searchVM.lat != 0.0 && searchVM.long != 0.0 && searchVM.address.isNotEmpty()) {
                 Log.d("APIScreen", "Lat: ${searchVM.lat}, Long: ${searchVM.long}, Address: ${searchVM.address}")
+                // Realizar la navegación solo si los valores son válidos
                 navController.navigate("MapsSearchView/${searchVM.lat}/${searchVM.long}/${searchVM.address}")
             } else {
                 throw IllegalArgumentException("Coordenadas no válidas o dirección vacía")
             }
         } catch (e: Exception) {
+            // Captura cualquier error y lo registra en el log
             Log.e("APIScreen", "Error al navegar o procesar la ubicación: ${e.message}")
-            e.printStackTrace()
+            e.printStackTrace()  // Imprimir traza del error
+            // Mostrar mensaje al usuario
             Toast.makeText(navController.context, "Error al procesar la ubicación: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }) {
@@ -232,6 +241,7 @@ fun LocationTrackingContent(navController: NavController, searchVM: SearchViewMo
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsCalendarContent() {
     val context = LocalContext.current
@@ -241,6 +251,7 @@ fun ContactsCalendarContent() {
     var selectedEndTime by remember { mutableStateOf("Selecciona hora de fin") }
     var hasPermission by remember { mutableStateOf(false) }
 
+    // Solicitar permisos al inicio
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -260,14 +271,17 @@ fun ContactsCalendarContent() {
     }
 
     if (hasPermission) {
+        // Si los permisos son otorgados, muestra la UI de selección de contacto y calendario
         var showContactDialog by remember { mutableStateOf(false) }
         val contacts = remember { fetchContacts(context) }
 
         Column(modifier = Modifier.padding(16.dp)) {
+            // Botón para seleccionar el contacto
             Button(onClick = { showContactDialog = true }) {
                 Text(text = selectedContact)
             }
 
+            // Diálogo de selección de contactos
             if (showContactDialog) {
                 AlertDialog(
                     onDismissRequest = { showContactDialog = false },
@@ -294,6 +308,7 @@ fun ContactsCalendarContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para seleccionar la fecha
             Button(onClick = {
                 val currentDate = Calendar.getInstance()
                 val datePickerDialog = android.app.DatePickerDialog(
@@ -312,6 +327,7 @@ fun ContactsCalendarContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para seleccionar la hora de inicio
             Button(onClick = {
                 val currentTime = Calendar.getInstance()
                 val timePickerDialog = android.app.TimePickerDialog(
@@ -330,6 +346,7 @@ fun ContactsCalendarContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para seleccionar la hora de fin
             Button(onClick = {
                 val currentTime = Calendar.getInstance()
                 val timePickerDialog = android.app.TimePickerDialog(
@@ -348,6 +365,7 @@ fun ContactsCalendarContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para guardar el evento en el calendario
             Button(onClick = {
                 if (selectedContact != "Selecciona un contacto" &&
                     selectedDate != "Selecciona una fecha" &&
@@ -390,6 +408,7 @@ fun ContactsCalendarContent() {
             }
         }
     } else {
+        // Si los permisos no fueron otorgados, muestra un mensaje y un botón
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center
@@ -443,6 +462,7 @@ fun CameraFilesContent(navController: NavController) {
     ) {
         Text("Api Cámara y archivos")
 
+        // Botón para navegar a la pantalla de la cámara
         Button(onClick = {
             navController.navigate("CameraScreen")
         }) {
@@ -454,7 +474,7 @@ fun CameraFilesContent(navController: NavController) {
 
 @Composable
 fun WifiCellularDataContent(navController: NavController) {
-    val context = LocalContext.current
+    val context = LocalContext.current  // Esto está correcto dentro de una función composable
 
     Column(
         modifier = Modifier
@@ -463,7 +483,9 @@ fun WifiCellularDataContent(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        // Botón que lanza NetworkMonitorActivity
         Button(onClick = {
+            // Crear el Intent y lanzar la actividad NetworkMonitorActivity
             val intent = Intent(context, NetworkMonitorActivity::class.java)
             context.startActivity(intent)
         }) {
