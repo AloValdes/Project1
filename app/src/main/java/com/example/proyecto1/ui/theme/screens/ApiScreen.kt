@@ -407,7 +407,6 @@ fun CameraFilesContent(navController: NavController) {
     }
 }
 
-
 @Composable
 fun WifiCellularDataContent(navController: NavController) {
     val context = LocalContext.current  // Esto está correcto dentro de una función composable
@@ -421,7 +420,6 @@ fun WifiCellularDataContent(navController: NavController) {
     ) {
         // Botón que lanza NetworkMonitorActivity
         Button(onClick = {
-            // Crear el Intent y lanzar la actividad NetworkMonitorActivity
             val intent = Intent(context, NetworkMonitorActivity::class.java)
             context.startActivity(intent)
         }) {
@@ -429,6 +427,7 @@ fun WifiCellularDataContent(navController: NavController) {
         }
     }
 }
+
 
 
 
