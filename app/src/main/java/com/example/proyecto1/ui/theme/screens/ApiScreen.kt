@@ -178,9 +178,6 @@ fun LocationTrackingContent(navController: NavController, searchVM: SearchViewMo
 
 
 
-
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsCalendarContent() {
     val context = LocalContext.current
