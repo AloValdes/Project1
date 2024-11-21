@@ -34,7 +34,7 @@ fun HomeView(navController: NavController, searchVM: SearchViewModel) {
         // Botón para buscar las coordenadas de la dirección
         Button(
             onClick = {
-                // Aquí invocas la función para obtener las coordenadas de la dirección
+
                 if (address.isNotEmpty()) {
                     searchVM.getLocation(address)
                     Log.d("HomeView", "Obteniendo ubicación para: $address")
@@ -53,7 +53,7 @@ fun HomeView(navController: NavController, searchVM: SearchViewModel) {
             Text("Dirección: ${searchVM.address}", fontSize = 20.sp)
         }
 
-        // Botón para enviar la información al mapa
+
         OutlinedButton(onClick = {
             if (searchVM.lat != 0.0 && searchVM.long != 0.0) {
                 navController.navigate("MapsSearchView/${searchVM.lat}/${searchVM.long}/${searchVM.address}")
