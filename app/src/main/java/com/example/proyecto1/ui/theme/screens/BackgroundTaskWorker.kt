@@ -15,7 +15,7 @@ import androidx.work.WorkerParameters
 class BackgroundTaskWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
-        showNotification("Alarma", "Es hora de tu alarma!")
+        showNotification("Alarma", "Apagar Alarma")
         return Result.success()
     }
 

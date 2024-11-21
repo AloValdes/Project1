@@ -80,10 +80,12 @@ fun BackGroundTaskScreen() {
                         if (hasNotificationPermission) {
                             scheduleAlarm(context, delayInMillis)
                         } else {
-                            Toast.makeText(context, "No tienes permiso para notificaciones", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,
+                                "No tienes permiso para notificaciones", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(context, "Selecciona una hora futura", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,
+                            "Selecciona una hora futura", Toast.LENGTH_SHORT).show()
                     }
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
