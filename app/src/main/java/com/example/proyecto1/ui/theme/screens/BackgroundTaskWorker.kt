@@ -1,31 +1,50 @@
 package com.example.proyecto1.ui.theme.screens
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
-import android.util.Log
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import androidx.work.Data
 
-class BackgroundTaskWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
+class BackgroundTaskWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
-        Log.d("BackgroundTaskWorker", "Tarea en segundo plano iniciada")
+        showNotification("Alarma", "Es hora de tu alarma!")
+        return Result.success()
+    }
 
-        // Simulación de trabajo en segundo plano
-        for (i in 1..5) {
-            try {
-                Thread.sleep(1000) // Simula trabajo de 1 segundo
-                Log.d("BackgroundTaskWorker", "Trabajo $i en progreso")
+    private fun showNotification(title: String, content: String) {
+        val channelId = "alarm_channel"
 
-                // Actualiza el progreso con cada paso
-                setProgressAsync(Data.Builder().putInt("progress", i).build())
-            } catch (e: InterruptedException) {
-                Log.e("BackgroundTaskWorker", "Trabajo interrumpido: ${e.message}")
-                return Result.failure() // Retorna fallo si se interrumpe
-            }
+        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channel = manager.getNotificationChannel(channelId)
+        if (channel == null) {
+            val newChannel = NotificationChannel(
+                channelId,
+                "Canal de Alarma",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            manager.createNotificationChannel(newChannel)
         }
 
-        return Result.success() // Indica que la tarea se completó con éxito
+        val notification = NotificationCompat.Builder(applicationContext, channelId)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .build()
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            NotificationManagerCompat.from(applicationContext).notify(1, notification)
+        }
     }
 }
 

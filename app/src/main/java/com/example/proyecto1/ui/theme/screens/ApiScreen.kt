@@ -4,12 +4,10 @@ import android.content.Context
 import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
-import android.net.wifi.WifiManager
 import android.provider.CalendarContract
 import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -30,29 +28,22 @@ import kotlinx.coroutines.launch
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.ui.platform.LocalContext
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.proyecto1.ui.theme.biometrics.BiometricPromptManager
 import com.example.proyecto1.ui.theme.location.HomeView
 import com.example.proyecto1.ui.theme.location.SearchViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
-import android.net.ConnectivityManager
-
 
 
 @Composable
 fun APisScreen(navController: NavController) {
     val menuOptions = listOf(
-        MenuModel(1, "Tareas en segundo plano", "BackgroundTasks", Icons.Filled.LocationOn),
-        MenuModel(2, "Rastreo y geolocalización", "LocationTracking", Icons.Filled.LocationOn),
-        MenuModel(3, "Contactos y calendario", "ContactsCalendar", Icons.Filled.LocationOn),
-        MenuModel(5, "Cámara y archivos", "CameraFiles", Icons.Filled.LocationOn),
-        MenuModel(6, "WIFI y datos celulares", "WifiCellularData", Icons.Filled.LocationOn)
+        MenuModel(1, "Search a Place", "LocationTracking", Icons.Filled.LocationOn),
+        MenuModel(2, "Calendary and Contacts", "ContactsCalendar", Icons.Filled.LocationOn),
+        MenuModel(3, "Camera and files", "CameraFiles", Icons.Filled.LocationOn),
+        MenuModel(4, "WIFI and CellPhone Data", "WifiCellularData", Icons.Filled.LocationOn)
     )
 
     var selectedOption by rememberSaveable { mutableStateOf("") }
@@ -89,7 +80,6 @@ fun APisScreen(navController: NavController) {
             verticalArrangement = Arrangement.Top
         ) {
             when (selectedOption) {
-                "BackgroundTasks" -> BackgroundTasksContent()
                 "LocationTracking" -> LocationTrackingContent(navController, searchVM)
                 "ContactsCalendar" -> ContactsCalendarContent()
                 "CameraFiles" -> CameraFilesContent(navController)
@@ -100,57 +90,6 @@ fun APisScreen(navController: NavController) {
     }
 }
 
-@Composable
-fun BackgroundTasksContent() {
-    val context = LocalContext.current
-    var isWorkScheduled by remember { mutableStateOf(false) }
-    var progress by remember { mutableStateOf(0) }
-    var isWorkComplete by remember { mutableStateOf(false) }
-
-    val workManager = WorkManager.getInstance(context)
-    val workRequest = remember { OneTimeWorkRequestBuilder<BackgroundTaskWorker>().build() }
-
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Contenido para Tareas en segundo plano")
-
-        Button(onClick = {
-            // Programar el trabajo en segundo plano
-            workManager.enqueue(workRequest)
-            isWorkScheduled = true
-            isWorkComplete = false
-        }) {
-            Text("Iniciar tarea en segundo plano")
-        }
-
-        if (isWorkScheduled) {
-            // Observar el progreso del Worker
-            LaunchedEffect(Unit) {
-                workManager.getWorkInfoByIdLiveData(workRequest.id).observeForever { workInfo ->
-                    workInfo?.let {
-                        if (it.progress.keyValueMap.containsKey("progress")) {
-                            progress = it.progress.getInt("progress", 0)
-                        }
-                        if (it.state.isFinished) {
-                            isWorkComplete = true
-                            isWorkScheduled = false
-                        }
-                    }
-                }
-            }
-
-            // Mostrar el progreso en pantalla
-            if (!isWorkComplete) {
-                Text("Tarea en progreso: Paso $progress de 5")
-            } else {
-                Text("Tarea completada con éxito.")
-            }
-        }
-    }
-}
 fun getCalendarId(context: Context): Long? {
     val projection = arrayOf(
         CalendarContract.Calendars._ID,
