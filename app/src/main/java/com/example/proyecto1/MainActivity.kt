@@ -1,7 +1,11 @@
 package com.example.proyecto1
 
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,6 +26,7 @@ import com.example.proyecto1.ui.theme.location.MapsSearchView
 import com.example.proyecto1.ui.theme.screens.APisScreen
 import com.example.proyecto1.ui.theme.screens.BackGroundTaskScreen
 import com.example.proyecto1.ui.theme.screens.CameraScreen
+import com.example.proyecto1.ui.theme.screens.WifiScreen
 
 
 class MainActivity : FragmentActivity() {
@@ -67,6 +72,13 @@ fun SetupNavGraph(navController: NavHostController){
         composable("CameraScreen") {
             CameraScreen(context = LocalContext.current)
 
+        }
+        composable("wifidatos") {
+            WifiScreen(
+                wifiManager = LocalContext.current.getSystemService(Context.WIFI_SERVICE) as WifiManager,
+                connectivityManager = LocalContext.current.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager,
+                context = LocalContext.current as ComponentActivity
+            )
         }
     }
 }

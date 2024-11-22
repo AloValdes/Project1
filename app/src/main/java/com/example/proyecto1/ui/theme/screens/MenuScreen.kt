@@ -43,6 +43,13 @@ fun MenuScreen(navController: NavController) {
         Button(onClick = {navController.navigate("BiometricsScreen")}) {
             Text("Go to Biometrics")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {navController.navigate("wifidatos")}) {
+            Text("Go to Wifi-Datos")
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {navController.navigate("ApiScreen")}) {

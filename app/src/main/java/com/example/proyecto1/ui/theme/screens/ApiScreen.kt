@@ -42,8 +42,7 @@ fun APisScreen(navController: NavController) {
     val menuOptions = listOf(
         MenuModel(1, "Search a Place", "LocationTracking", Icons.Filled.LocationOn),
         MenuModel(2, "Calendary and Contacts", "ContactsCalendar", Icons.Filled.LocationOn),
-        MenuModel(3, "Camera and files", "CameraFiles", Icons.Filled.LocationOn),
-        MenuModel(4, "WIFI and CellPhone Data", "WifiCellularData", Icons.Filled.LocationOn)
+        MenuModel(3, "Camera and files", "CameraFiles", Icons.Filled.LocationOn)
     )
 
     var selectedOption by rememberSaveable { mutableStateOf("") }
@@ -83,7 +82,6 @@ fun APisScreen(navController: NavController) {
                 "LocationTracking" -> LocationTrackingContent(navController, searchVM)
                 "ContactsCalendar" -> ContactsCalendarContent()
                 "CameraFiles" -> CameraFilesContent(navController)
-                "WifiCellularData" -> WifiCellularDataContent(navController)
                 else -> Text("Seleccione una opción del menú")
             }
         }
@@ -407,26 +405,7 @@ fun CameraFilesContent(navController: NavController) {
     }
 }
 
-@Composable
-fun WifiCellularDataContent(navController: NavController) {
-    val context = LocalContext.current  // Esto está correcto dentro de una función composable
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // Botón que lanza NetworkMonitorActivity
-        Button(onClick = {
-            val intent = Intent(context, NetworkMonitorActivity::class.java)
-            context.startActivity(intent)
-        }) {
-            Text("Ir a Network Monitor")
-        }
-    }
-}
 
 
 
