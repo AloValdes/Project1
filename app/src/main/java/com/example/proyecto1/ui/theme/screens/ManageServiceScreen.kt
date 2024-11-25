@@ -33,7 +33,6 @@ import com.example.proyecto1.data.controller.ServiceViewModel
 import com.example.proyecto1.data.model.ServiceModel
 import com.example.proyecto1.ui.theme.components.TopBar
 
-
 @Composable
 fun ManageServiceScreen(
     navController : NavController,
@@ -162,10 +161,7 @@ fun ManageServiceScreen(
                 shape = CutCornerShape(4.dp),
                 onClick = {
                     val serviceTemp = ServiceModel(
-                        name = service.value.name,
-                        username = service.value.username,
-                        password = service.value.password,
-                        description = service.value.description
+
                     )
                     save(viewModel, context, serviceTemp, serviceId)
                 }
@@ -246,7 +242,7 @@ fun delete(
     navController: NavController
 ) {
     if (serviceId != null && serviceId != "0") {
-        viewModel.deleteServices(serviceId.toInt()) { response ->
+        viewModel.deleteService(serviceId.toInt()) { response ->
             if (response.isSuccessful) {
                 Toast.makeText(
                     context,
@@ -264,7 +260,3 @@ fun delete(
         }
     }
 }
-
-
-
-

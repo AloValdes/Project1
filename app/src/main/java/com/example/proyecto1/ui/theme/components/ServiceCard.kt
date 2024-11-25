@@ -25,48 +25,48 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.proyecto1.R
+import androidx.compose.foundation.layout.*
 
 @Composable
 fun ServiceCard(
     id:Int,
-    name: String,
+    name:String,
     username:String,
+    password:String,
     imageURL:String?,
-    onButtonClick:()->Unit
-){
+    onButtonClick:()->Unit)
+{
     Card(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(3.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Black,
             contentColor = Color.White
         )
     ) {
-        Row(
-        ) {
+        Row() {
             AsyncImage(
                 modifier = Modifier
-                    .size(80.dp)
-                    .padding(10.dp),
+                    .width(80.dp)
+                    .height(88.dp)
+                    .padding(18.dp),
                 model = imageURL,
                 error = painterResource(R.drawable.android),
-                contentDescription = "Service Logo",
+                contentDescription = "Service logo ",
                 contentScale = ContentScale.FillBounds
             )
-            Column(){
+            Column() {
                 Text(
                     text = name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(2.dp, 8.dp, 0.dp, 0.dp)
+                    modifier = Modifier.padding(2.dp, 8.dp, 0.dp, 0.dp)
                 )
                 Text(
                     text = username,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(4.dp, 0.dp)
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(4.dp, 0.dp)
                 )
             }
             Row(
@@ -75,17 +75,15 @@ fun ServiceCard(
                     .height(80.dp),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 IconButton(
-                    modifier = Modifier.padding(20.dp, 0.dp, 0.dp,0.dp),
-                    onClick = { onButtonClick() }){
+                    modifier = Modifier.padding(20.dp, 0.dp, 0.dp, 0.dp),
+                    onClick = { onButtonClick() }) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "Service details"
+                        contentDescription = "Service Details"
                     )
-
                 }
-
             }
         }
     }

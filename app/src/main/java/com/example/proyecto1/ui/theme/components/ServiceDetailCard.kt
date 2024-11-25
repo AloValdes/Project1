@@ -36,9 +36,9 @@ fun ServiceDetailCard(
     id: Int,
     name: String,
     username: String,
+    imageURL:String?,
     password:String,
     description:String,
-    imageURL:String?,
     onEditClick: () -> Unit
 ){
     val clipboardManager : ClipboardManager = LocalClipboardManager.current

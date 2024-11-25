@@ -91,9 +91,8 @@ fun HomeScreen(
                 .fillMaxSize(),
             state = listState
         ) {
-            Log.d("debuginfo", services.toString())
             items(services) { service ->
-                service.imageUrl?.let {
+                service.imageURL?.let {
                     ServiceCard(
                         service.id, service.name, service.username, it,
                         onButtonClick = {
@@ -104,6 +103,7 @@ fun HomeScreen(
                             }
                             showBottomSheet = true
                         },
+                        imageURL = service.imageURL
                     )
                 }
             }
@@ -122,7 +122,7 @@ fun HomeScreen(
                     username = serviceDetail?.username ?: "",
                     password = serviceDetail?.password ?: "",
                     description = serviceDetail?.description ?: "",
-                    imageURL = serviceDetail?.imageUrl,
+                    imageURL = serviceDetail?.imageURL,
                     onEditClick = {
                         showBottomSheet = false
                         navController.navigate("manage-service/" + serviceDetail?.id)

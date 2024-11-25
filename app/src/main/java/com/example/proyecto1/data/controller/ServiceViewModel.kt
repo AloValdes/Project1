@@ -7,29 +7,31 @@ import com.example.proyecto1.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-
 class ServiceViewModel: ViewModel() {
-    val api = RetrofitClient.api
-    fun getServices(onResult: (Response<List<ServiceModel>>)->Unit) {
+    private val api = RetrofitClient.api
+
+    fun getServices(onResult: (Response<List<ServiceModel>>) -> Unit){
         viewModelScope.launch {
-            try{
+            try {
                 val response = api.getServices()
                 onResult(response)
-            }catch(exception:Exception){
+            } catch (exception:Exception){
                 print(exception)
             }
         }
     }
-    fun showService(id: Int, onResult: (Response<ServiceModel>)->Unit) {
+
+    fun showService(id: Int, onResult: (Response<ServiceModel>) -> Unit){
         viewModelScope.launch {
-            try{
+            try {
                 val response = api.getService(id)
                 onResult(response)
-            }catch(exception:Exception){
+            } catch (exception:Exception){
                 print(exception)
             }
         }
     }
+
     fun createService(service: ServiceModel,onResult: (Response<List<ServiceModel>>)->Unit) {
         viewModelScope.launch {
             try{
@@ -40,26 +42,27 @@ class ServiceViewModel: ViewModel() {
             }
         }
     }
-    fun updateService(id: Int, service: ServiceModel,  onResult: (Response<ServiceModel>)->Unit) {
-        viewModelScope.launch {
-            try{
-                val response = api.updateService(id,service)
+
+    fun updateService(id: Int, service: ServiceModel, onResult: (Response<ServiceModel>) -> Unit) {
+        try {
+            viewModelScope.launch {
+                val response = api.updateService(id, service)
                 onResult(response)
-            }catch(exception:Exception){
-                print(exception)
             }
+        } catch (exception:Exception){
+            print(exception)
         }
     }
-    fun deleteServices(id: Int,  onResult: (Response<ServiceModel>)->Unit) {
-        viewModelScope.launch {
-            try{
+
+    fun deleteService(id: Int, onResult: (Response<ServiceModel>) -> Unit) {
+        try {
+            viewModelScope.launch {
                 val response = api.deleteService(id)
                 onResult(response)
-            }catch(exception:Exception){
-                print(exception)
             }
+        } catch (exception:Exception){
+            print(exception)
         }
     }
-
-
 }
+
