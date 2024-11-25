@@ -34,10 +34,15 @@ import com.example.proyecto1.data.model.ServiceModel
 import com.example.proyecto1.ui.theme.components.ServiceCard
 import com.example.proyecto1.ui.theme.components.ServiceDetailCard
 import com.example.proyecto1.ui.theme.components.TopBar
+import androidx.compose.foundation.lazy.items
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen (navController: NavController, viewModel: ServiceViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: ServiceViewModel = viewModel()
+) {
     var serviceDetail by remember { mutableStateOf<ServiceModel?>(null) }
     var sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false
@@ -62,16 +67,16 @@ fun HomeScreen (navController: NavController, viewModel: ServiceViewModel = andr
                 Icon(Icons.Default.Add, contentDescription = "Add icon")
             }
         }
-    ){ innerPadding ->
+    ) { innerPadding ->
 
-        var services by remember {mutableStateOf<List<ServiceModel>>(emptyList())}
-        if(services.isEmpty()){
+        var services by remember { mutableStateOf<List<ServiceModel>>(emptyList()) }
+        if (services.isEmpty()) {
             CircularProgressIndicator()
         }
-        LaunchedEffect(Unit){
+        LaunchedEffect(Unit) {
             viewModel.getServices { response ->
-                if(response.isSuccessful){
-                    services = response.body()?: emptyList()
+                if (response.isSuccessful) {
+                    services = response.body() ?: emptyList()
                 } else {
                     println("failed to load posts")
                 }
@@ -79,28 +84,32 @@ fun HomeScreen (navController: NavController, viewModel: ServiceViewModel = andr
         }
 
         val listState = rememberLazyListState()
-        LazyColumn (
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .background(colorResource(R.color.black))
                 .fillMaxSize(),
             state = listState
-        ){
-            Log.d("debuginfo",services.toString())
-            items(services){ service ->
-                ServiceCard(service.id, service.name , service.username, service.imageURL,
-                    onButtonClick = {
-                        viewModel.showService(service.id){ response ->
-                            if(response.isSuccessful){
-                                serviceDetail = response.body()
+        ) {
+            Log.d("debuginfo", services.toString())
+            items(services) { service ->
+                service.imageUrl?.let {
+                    ServiceCard(
+                        service.id, service.name, service.username, it,
+                        onButtonClick = {
+                            viewModel.showService(service.id) { response ->
+                                if (response.isSuccessful) {
+                                    serviceDetail = response.body()
+                                }
                             }
-                        }
-                        showBottomSheet=true
-                    }
-                )
+                            showBottomSheet = true
+                        },
+                        imageURL = TODO()
+                    )
+                }
             }
         }
-        if(showBottomSheet){
+        if (showBottomSheet) {
             ModalBottomSheet(
                 containerColor = colorResource(id = R.color.teal_200),
                 contentColor = Color.White,
@@ -111,10 +120,10 @@ fun HomeScreen (navController: NavController, viewModel: ServiceViewModel = andr
                 ServiceDetailCard(
                     id = serviceDetail?.id ?: 0,
                     name = serviceDetail?.name ?: "",
-                    username = serviceDetail?.username?:"",
-                    password = serviceDetail?.password?:"",
-                    description = serviceDetail?.description?:"",
-                    imageURL = serviceDetail?.imageURL,
+                    username = serviceDetail?.username ?: "",
+                    password = serviceDetail?.password ?: "",
+                    description = serviceDetail?.description ?: "",
+                    imageURL = serviceDetail?.imageUrl,
                     onEditClick = {
                         showBottomSheet = false
                         navController.navigate("manage-service/" + serviceDetail?.id)

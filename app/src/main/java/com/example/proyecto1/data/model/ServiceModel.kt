@@ -6,5 +6,5 @@ data class ServiceModel(
     var username: String = "",
     var password: String = "",
     var description: String = "",
-    var imageUrl: String? = null
+    val imageUrl: String? = null
 )
