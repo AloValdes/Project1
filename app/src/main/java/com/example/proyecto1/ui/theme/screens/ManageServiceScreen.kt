@@ -160,11 +160,12 @@ fun ManageServiceScreen(
                     .padding(0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
                 onClick = {
-                    val serviceTemp = ServiceModel(
-
+                    val serviceTemp = service.value.copy(
+                        id = serviceId?.toInt() ?: 0 // Asigna el ID en caso de actualización
                     )
                     save(viewModel, context, serviceTemp, serviceId)
                 }
+
             ) {
                 Text(if (serviceId == "0") "CREATE SERVICE" else "SAVE CHANGES")
             }

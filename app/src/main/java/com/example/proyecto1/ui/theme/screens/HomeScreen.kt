@@ -1,12 +1,11 @@
 package com.example.proyecto1.ui.theme.screens
 
-
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,12 +29,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
 import com.example.proyecto1.R
 import com.example.proyecto1.data.controller.ServiceViewModel
-import com.example.proyecto1.data.model.ServiceModel
 import com.example.proyecto1.ui.theme.components.ServiceCard
 import com.example.proyecto1.ui.theme.components.ServiceDetailCard
 import com.example.proyecto1.ui.theme.components.TopBar
-import androidx.compose.foundation.lazy.items
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.proyecto1.data.model.ServiceModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,10 +1,10 @@
 package com.example.proyecto1.data.model
 
-data class ServiceModel(
+data class ServiceModel (
     var id: Int = 0,
     var name: String = "",
     var username: String = "",
     var password: String = "",
     var description: String = "",
-    val imageURL: String? = null
+    var imageURL: String? = null
 )
