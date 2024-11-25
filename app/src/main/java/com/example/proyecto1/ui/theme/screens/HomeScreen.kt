@@ -104,7 +104,6 @@ fun HomeScreen(
                             }
                             showBottomSheet = true
                         },
-                        imageURL = TODO()
                     )
                 }
             }
