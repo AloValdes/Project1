@@ -1,6 +1,7 @@
 package com.example.proyecto1
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
@@ -12,13 +13,24 @@ import com.example.proyecto1.ui.theme.screens.HomeScreen
 import com.example.proyecto1.ui.theme.screens.MenuScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.proyecto1.data.database.AppDatabase
+import com.example.proyecto1.data.database.DatabaseProvider
 import com.example.proyecto1.ui.theme.screens.ComponentScreen
 import com.example.proyecto1.ui.theme.screens.ManageServiceScreen
 
 
 class MainActivity : ComponentActivity() {
+    lateinit var database:AppDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        try {
+            database = DatabaseProvider.getDatabase(this)
+            Log.d("DB", "Database loaded succesfully")
+        } catch(exception:Exception){
+            Log.d("DB", "error:$exception")
+        }
+
         setContent {
             multiScreenApp()
 
