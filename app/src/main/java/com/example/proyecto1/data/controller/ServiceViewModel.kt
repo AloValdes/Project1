@@ -32,12 +32,12 @@ class ServiceViewModel: ViewModel() {
         }
     }
 
-    fun createService(service: ServiceModel,onResult: (Response<List<ServiceModel>>)->Unit) {
+    fun createService(service: ServiceModel, onResult: (Response<ServiceModel>) -> Unit) {
         viewModelScope.launch {
-            try{
+            try {
                 val response = api.createService(service)
                 onResult(response)
-            }catch(exception:Exception){
+            } catch (exception:Exception){
                 print(exception)
             }
         }
