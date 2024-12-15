@@ -61,7 +61,7 @@ fun SetupNavGraph(navController: NavHostController, activity: AppCompatActivity)
         composable("apis") { APisScreen(navController) }
         composable("MapsSearchView/{lat}/{long}/{address}") { backStackEntry ->
             val lat = backStackEntry.arguments?.getString("lat")?.toDouble() ?: 0.0
-            val long = backStackEntry.arguments?.getString("long")?.toDouble() ?: 0.0  // Convert to Double here
+            val long = backStackEntry.arguments?.getString("long")?.toDouble() ?: 0.0
             val address = backStackEntry.arguments?.getString("address") ?: ""
             MapsSearchView(lat, long, address)
         }
