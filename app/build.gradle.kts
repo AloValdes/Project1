@@ -103,8 +103,6 @@ dependencies {
     //Camera and files
     //implementation("io.coil-kt:coil-compose:2.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-
-
     implementation ("com.google.accompanist:accompanist-insets:0.30.1")
     implementation ("androidx.compose.ui:ui:1.7.5")
     implementation ("androidx.compose.material:material:1.7.5")
