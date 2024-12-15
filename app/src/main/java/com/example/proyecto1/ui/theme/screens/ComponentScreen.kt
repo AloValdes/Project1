@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +51,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
@@ -61,10 +63,12 @@ import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SnackbarHost
@@ -72,8 +76,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -86,6 +94,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -93,6 +102,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.proyecto1.R
@@ -103,7 +113,10 @@ import com.example.proyecto1.ui.theme.components.PostCard
 import com.example.proyecto1.ui.theme.components.PostCardCompact
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
@@ -168,8 +181,8 @@ fun ComponentScreen(navController: NavController) {
             "Sliders" -> Sliders()
             "Switches" -> Switches()
             "Badges" -> Badges()
-//            "date-pickers" -> DatePickers()
-//            "time-pickers" -> TimePickers()
+            "date-pickers" -> DatePickers()
+            "time-pickers" -> TimePickers()
             "snack-bar" -> SnackBars()
             "alert-dialogs" -> AlertDialogs()
             "bars" -> Bars()
@@ -438,74 +451,144 @@ fun Badges(){
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun DatePickers() {
-//    var showTimePicker by remember { mutableStateOf(false) }
-//    val state = rememberTimePickerState()
-//    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
-//    val snackState = remember { SnackbarHostState() }
-//    val snackScope = rememberCoroutineScope()
-//
-//    Box(propagateMinConstraints = false) {
-//        Button(modifier = Modifier.align(Alignment.Center), onClick = { showTimePicker = true }) {
-//            Text("Set Time")
-//        }
-//        SnackbarHost(hostState = snackState)
-//    }
-//
-//    if (showTimePicker) {
-//        TimePickerDialog(
-//            onCancel = { showTimePicker = false },
-//            onConfirm = {
-//                val cal = Calendar.getInstance()
-//                cal.set(Calendar.HOUR_OF_DAY, state.hour)
-//                cal.set(Calendar.MINUTE, state.minute)
-//                cal.isLenient = false
-//                snackScope.launch {
-//                    snackState.showSnackbar("Entered time: ${formatter.format(cal.time)}")
-//                }
-//                showTimePicker = false
-//            },
-//        ) {
-//            TimeInput(state = state)
-//        }
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun TimePickers() {
-//    var selectedTime by remember { mutableStateOf("") }
-//
-//    val calendar = Calendar.getInstance()
-//    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//    val minute = calendar.get(Calendar.MINUTE)
-//
-//    // TimePickerDialog creation
-//    val timePickerDialog = TimePickerDialog(
-//        LocalContext.current,
-//        { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
-//            selectedTime = "$selectedHour:${if (selectedMinute < 10) "0$selectedMinute" else selectedMinute}"
-//        }, hour, minute, true
-//    )
-//
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center,
-//        modifier = Modifier.fillMaxSize().padding(16.dp)
-//    ) {
-//        Text(text = "Selected Time: $selectedTime")
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        Button(onClick = {
-//            timePickerDialog.show()
-//        }) {
-//            Text(text = "Select Time")
-//        }
-//    }
-//}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickers() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var showDatePicker by remember { mutableStateOf(false) }
+        val datePickerState = rememberDatePickerState()
+        val selectedDate = datePickerState.selectedDateMillis?.let {
+            convertMillisToDate(it)
+        } ?: ""
+
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = selectedDate,
+                onValueChange = { },
+                label = { Text("DOB") },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker = !showDatePicker }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = "Select date"
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+            )
+
+            if (showDatePicker) {
+                Popup(
+                    onDismissRequest = { showDatePicker = false },
+                    alignment = Alignment.TopStart
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = 64.dp)
+                            .shadow(elevation = 4.dp)
+                            .background(MaterialTheme.colorScheme.surface)
+                            .padding(16.dp)
+                    ) {
+                        androidx.compose.material3.DatePicker(
+                            state = datePickerState,
+                            showModeToggle = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun convertMillisToDate(millis: Long): String {
+    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
+}
+
+@Composable
+fun TimePickers() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        DialExample(
+            onConfirm = { println("Confirmed") },
+            onDismiss = { println("Dismissed") }
+        )
+        InputExample(
+            onConfirm = { println("Confirmed") },
+            onDismiss = { println("Dismissed") }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DialExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = { onConfirm() }) {
+            Text("Confirm selection")
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InputExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
