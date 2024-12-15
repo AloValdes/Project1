@@ -37,7 +37,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 }
-@Preview(showBackground = true)
+
 @Composable
 fun ComposeMultiScreenApp(){
     val navController = rememberNavController()
